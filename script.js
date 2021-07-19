@@ -189,6 +189,8 @@ k.scene('gameplay', () => {
 		})
 
 		Object.keys(DIRECTIONS).forEach(dir => k.keyDown(dir.toLowerCase(), () => {
+			const tile = body.slice(-1)[0]
+			if (tile.entity.is('consumable')) return;
 			facing = dir
 		}));
 	})();
@@ -202,6 +204,7 @@ k.scene('gameplay', () => {
 			while(true){
 				const x = randomFrom(Object.keys(tiles))
 				const y = randomFrom(Object.keys(tiles[x]))
+				if (!x || !y || x === Object.keys(tiles).slice(-1)[0] || y === Object.keys(tiles[x]).slice(-1)[0]) continue
 				tile = tiles[x][y];
 				if (!tile.entity) break;
 			}
