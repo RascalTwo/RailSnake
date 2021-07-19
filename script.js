@@ -156,8 +156,9 @@ k.scene('gameplay', () => {
 			}
 			if (tile.entity){
 				if (tile.entity.is('consumable') && !tile.entity.consumed) {
+					const facingSame = Math.abs(tile.entity.angle) === Math.abs(angle);
+					if (!facingSame) k.go('gameover', score.get());
 					tile.entity.changeSprite('powered_rail_on')
-					tile.entity.angle = angle;
 					tile.entity.consumed = true;
 					score.increment();
 				}
