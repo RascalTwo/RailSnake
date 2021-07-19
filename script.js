@@ -150,9 +150,14 @@ k.scene('gameplay', () => {
 			if (!tile) return k.go('gameover', score.get());
 
 			const angle = ['RIGHT', 'LEFT'].includes(facing) ? 3.14/2 : 0
-			if (facing !== lastFacing && last.entity) {
-				last.entity.changeSprite('rail_corner')
-				last.entity.angle = ANGLE_MAP[lastFacing][facing]
+			if (last.entity){
+				if (facing !== lastFacing){
+					last.entity.changeSprite('rail_corner')
+					last.entity.angle = ANGLE_MAP[lastFacing][facing]
+				}
+				else if (!last.entity.is('consumable')){
+					last.entity.changeSprite('rail')
+				}
 			}
 			if (tile.entity){
 				if (tile.entity.is('consumable') && !tile.entity.consumed) {
@@ -168,7 +173,7 @@ k.scene('gameplay', () => {
 			}
 			else{
 				tile.entity = k.add([
-					k.sprite('rail'),
+					k.sprite('detector_rail_on'),
 					k.scale(2),
 					k.pos(tile.pos),
 					k.origin('center'),
@@ -245,6 +250,7 @@ k.scene('gameover', (score) => {
 		k.loadSprite('powered_rail_on', 'assets/powered_rail_on.png'),
 		k.loadSprite('powered_rail', 'assets/powered_rail.png'),
 		k.loadSprite('grass_block_top', 'assets/grass_block_top.png'),
+		k.loadSprite('detector_rail_on', 'assets/detector_rail_on.png'),
 	]);
 	k.start('gameplay');
 })().catch(console.error);
