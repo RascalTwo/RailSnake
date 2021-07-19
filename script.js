@@ -161,7 +161,7 @@ k.scene('gameplay', () => {
 			}
 			if (tile.entity){
 				if (tile.entity.is('consumable') && !tile.entity.consumed) {
-					const facingSame = Math.abs(tile.entity.angle) === Math.abs(angle);
+					const facingSame = (tile.entity.orientation === 'v' && ['UP', 'DOWN'].includes(facing)) || (tile.entity.orientation === 'h' && ['LEFT', 'RIGHT'].includes(facing));
 					if (!facingSame) k.go('gameover', score.get());
 					tile.entity.changeSprite('powered_rail_on')
 					tile.entity.consumed = true;
@@ -210,20 +210,21 @@ k.scene('gameplay', () => {
 			while(true){
 				const x = randomFrom(Object.keys(tiles))
 				const y = randomFrom(Object.keys(tiles[x]))
-				if (!x || !y || x === Object.keys(tiles).slice(-1)[0] || y === Object.keys(tiles[x]).slice(-1)[0]) continue
+				if (x === '0' || y === '0' || x === Object.keys(tiles).slice(-1)[0] || y === Object.keys(tiles[x]).slice(-1)[0]) continue
 				tile = tiles[x][y];
 				if (!tile.entity) break;
 			}
 
+			const angle = randomFrom([0, 3.14/2, -3.14/2, 3.14]);
 			consumable = k.add([
 				k.sprite('powered_rail'),
 				k.scale(2),
 				k.layer('entities'),
 				k.origin('center'),
 				k.pos(tile.pos),
-				k.rotate(randomFrom([0, 3.14/2, -3.14/2, 3.14])),
+				k.rotate(angle),
 				'consumable',
-				{ consumed: false }
+				{ consumed: false, orientation: Math.floor(Math.abs(angle)) === 1 ? 'h' : 'v' }
 			]);
 			tile.entity = consumable;
 		}
