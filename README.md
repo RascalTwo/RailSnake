@@ -2,6 +2,8 @@
 
 # Dino Chaser
 
+[![Run on Repl.it](https://repl.it/badge/github/RascalTwo/RailSnake)](https://repl.it/github/RascalTwo/RailSnake)
+
 Rail-themed snake written in [kaboom.js][kaboom.js].
 
 https://user-images.githubusercontent.com/9403665/128609025-1953e58b-5f51-463f-807a-2e68ce5d302d.mp4
